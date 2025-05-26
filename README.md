@@ -20,7 +20,7 @@ A framework for generating chemically valid adversarial molecules that can fool 
 ## Quick Start
 
 ```python
-python examples/run_adversarial_generation.py --black_box_model_path "models/random_forest.pkl"
+python examples/run_adversarial_generation.py --black_box_model_path "models/random_forest.pkl" --encoder_model_path "models/molecular_vae_model.pt" --example aspirin
 ```
 
 ## Method Overview
