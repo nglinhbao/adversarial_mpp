@@ -114,7 +114,7 @@ class FragmentAnalysis:
             print("[INFO] No valid fragments, using fallback.")
             out = self._fallback_fragments(mol_orig)
 
-        print("[INFO] Final fragments:", out)
+        print("[INFO] Important fragments:", out)
         return out
 
     # ───────────────────────── internal helpers ────────────────────────────
