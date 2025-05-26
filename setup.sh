@@ -12,3 +12,5 @@ conda install -c conda-forge pomegranate -y
 
 # Install molsets without dependencies
 pip install molsets --no-deps
+
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118

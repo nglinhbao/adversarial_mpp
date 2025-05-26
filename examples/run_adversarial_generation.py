@@ -15,7 +15,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Generate adversarial molecules (advanced)')
     parser.add_argument('--black_box_model_path', type=str, required=True,
                         help='Path to the black box model (required)')
-    parser.add_argument('--encoder_model_path', type=str, default=None,
+    parser.add_argument('--encoder_model_path', type=str, required=True,
                         help='Path to the encoder model (default: None)')
     parser.add_argument('--fragment_library_path', type=str, default=None,
                         help='Path to the fragment library (default: None)')
