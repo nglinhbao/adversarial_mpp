@@ -13,11 +13,17 @@ from adversarial_mol_gen.utils import mol_to_smiles, smiles_to_mol
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Generate adversarial molecules (advanced)')
+    parser.add_argument('--black_box_model_path', type=str, required=True,
+                        help='Path to the black box model (required)')
+    parser.add_argument('--encoder_model_path', type=str, default=None,
+                        help='Path to the encoder model (default: None)')
+    parser.add_argument('--fragment_library_path', type=str, default=None,
+                        help='Path to the fragment library (default: None)')
     parser.add_argument('--smiles', type=str, default="CC(=O)Oc1ccccc1C(=O)O",
                         help='SMILES string of the molecule to attack (default: aspirin)')
     parser.add_argument('--n_candidates', type=int, default=10000,
                         help='Number of candidates to generate')
-    parser.add_argument('--max_selection', type=int, default=100,
+    parser.add_argument('--max_selection', type=int, default=5,
                         help='Maximum number of adversarial examples to return')
     parser.add_argument('--output_dir', type=str, default='results',
                         help='Output directory')
@@ -67,7 +73,13 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     
     # Initialize generator
-    generator = AdversarialMoleculeGenerator(threshold=args.threshold)
+    generator = AdversarialMoleculeGenerator(threshold=args.threshold, black_box_model_path=args.black_box_model_path,
+                                              encoder_model_path=args.encoder_model_path,
+                                              fragment_library_path=args.fragment_library_path)
+
+    print(f"Using black box model: {args.black_box_model_path}")
+    print(f"Using encoder model: {args.encoder_model_path if args.encoder_model_path else 'default'}")
+    print(f"Using fragment library: {args.fragment_library_path if args.fragment_library_path else 'default'}")
     
     # Convert SMILES to RDKit molecule
     mol = Chem.MolFromSmiles(args.smiles)

@@ -3,6 +3,9 @@ from rdkit import Chem
 from rdkit.Chem import AllChem, Descriptors
 import pickle
 import os
+from rdkit.Chem import rdFingerprintGenerator
+from rdkit import DataStructs
+
 
 class BlackBoxModel:
     """
@@ -37,16 +40,22 @@ class BlackBoxModel:
         else:
             # Use a simple rule-based model as placeholder
             return self._simple_predict(mol)
-    
+
     def _model_predict(self, mol):
         """
         Make prediction using loaded model.
         """
-        # Extract features
-        fp = np.array(AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=2048))
+        # Use MorganGenerator (replacement for deprecated fingerprint API)
+        generator = rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=2048)
+        fp = generator.GetFingerprint(mol)
+
+        # Convert to numpy array
+        fp_array = np.zeros((1,), dtype=np.int8)
+        DataStructs.ConvertToNumpyArray(fp, fp_array)
         
         # Make prediction
-        return self.model.predict_proba(fp.reshape(1, -1))[0][1]
+        return self.model.predict_proba(fp_array.reshape(1, -1))[0][1]
+
     
     def _simple_predict(self, mol):
         """

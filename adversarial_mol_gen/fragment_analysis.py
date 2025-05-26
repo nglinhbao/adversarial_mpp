@@ -6,7 +6,7 @@ from collections import defaultdict
 
 from rdkit import Chem
 from rdkit.Chem import (AllChem, Draw, rdFMCS, Fragments,
-                        BRICS, rdmolops)
+                        BRICS, rdmolops, rdFingerprintGenerator)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -162,22 +162,39 @@ class FragmentAnalysis:
                         imp.append(Chem.MolToSmiles(sub))
         return imp
 
-    # ---------------- morgan fingerprint ----------------------------------
     def _morgan_fingerprint_analysis(self, mol: Chem.Mol) -> List[str]:
-        info = {}
-        AllChem.GetMorganFingerprintAsBitVect(mol, 2, bitInfo=info)
+        # Initialize the Morgan fingerprint generator
+        generator = rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=2048)
+        
+        # Create an AdditionalOutput object to capture bitInfo
+        additional_output = rdFingerprintGenerator.AdditionalOutput()
+        additional_output.AllocateBitInfoMap()
+        
+        # Generate the fingerprint and capture additional information
+        _ = generator.GetFingerprint(mol, additionalOutput=additional_output)
+        
+        # Retrieve the bitInfo mapping
+        bit_info = additional_output.GetBitInfoMap()
+        
+        # Aggregate atom contributions
         contrib = defaultdict(int)
-        for _, atom_lists in info.items():
+        for atom_lists in bit_info.values():
             for aid, _ in atom_lists:
                 contrib[aid] += 1
-        top_atoms = sorted(contrib.items(), key=lambda x: x[1], reverse=True)[: self.morgan_top_k]
-        imp = []
+        
+        # Determine the top contributing atoms
+        top_atoms = sorted(contrib.items(), key=lambda x: x[1], reverse=True)[:self.morgan_top_k]
+        
+        # Extract important fragments based on top atoms
+        important_fragments = []
         for aid, _ in top_atoms:
             env = Chem.FindAtomEnvironmentOfRadiusN(mol, 2, aid)
-            sub = Chem.PathToSubmol(mol, env) if env else None
-            if sub and sub.GetNumAtoms() > 0:
-                imp.append(Chem.MolToSmiles(sub))
-        return imp
+            submol = Chem.PathToSubmol(mol, env) if env else None
+            if submol and submol.GetNumAtoms() > 0:
+                important_fragments.append(Chem.MolToSmiles(submol))
+        
+        return important_fragments
+
 
     # ---------------- direct extraction ------------------------------------
     def _direct_fragment_extraction(self, mol: Chem.Mol) -> List[str]:
