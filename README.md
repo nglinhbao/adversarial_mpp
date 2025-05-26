@@ -14,13 +14,13 @@ A framework for generating chemically valid adversarial molecules that can fool 
 ## Installation
 
 ```bash
-pip install -r requirements.txt
+./setup.sh
 ```
 
 ## Quick Start
 
 ```python
-python examples/run_adversarial_generation.py
+python examples/run_adversarial_generation.py --black_box_model_path "models/random_forest.pkl"
 ```
 
 ## Method Overview

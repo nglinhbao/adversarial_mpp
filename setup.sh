@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Install Python dependencies from requirements.txt
+pip install -r requirements.txt
+
+# Install pomegranate using conda
+conda install -c conda-forge pomegranate -y
+
+# Install molsets without dependencies
+pip install molsets --no-deps
