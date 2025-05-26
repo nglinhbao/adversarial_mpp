@@ -20,19 +20,7 @@ pip install -r requirements.txt
 ## Quick Start
 
 ```python
-from adversarial_mol_gen.main import AdversarialMoleculeGenerator
-from rdkit import Chem
-
-# Initialize the generator
-generator = AdversarialMoleculeGenerator()
-
-# Generate adversarial examples for aspirin
-mol = Chem.MolFromSmiles("CC(=O)Oc1ccccc1C(=O)O")  # Aspirin
-adversarial_mols = generator.generate(mol)
-
-# Print the results
-for i, adv_mol in enumerate(adversarial_mols):
-    print(f"Adversarial molecule {i+1}: {Chem.MolToSmiles(adv_mol)}")
+python examples/run_adversarial_generation.py
 ```
 
 ## Method Overview
