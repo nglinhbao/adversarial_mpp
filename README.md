@@ -19,6 +19,14 @@ A framework for generating chemically valid adversarial molecules that can fool 
 
 ## Quick Start
 
+To start with, we need to train the black-box models that perform well on predicting molecule property.
+
+```python
+python examples/example_models.py
+```
+
+The example below attacks the black-box model (Random Forest) by generating adversarial molecules from aspirin.
+
 ```python
 python examples/run_adversarial_generation.py --black_box_model_path "models/random_forest.pkl" --encoder_model_path "models/molecular_vae_model.pt" --example aspirin
 ```
