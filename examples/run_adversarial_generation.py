@@ -115,8 +115,8 @@ def main():
     # Display visualization
     if adversarial_mols:
         img = generator.visualize_results(mol, adversarial_mols)
-        img.save(os.path.join(args.output_dir, 'visualization.png'))
-        print(f"Visualization saved to: {os.path.join(args.output_dir, 'visualization.png')}")
+        img.save(os.path.join(args.output_dir, f'{args.example}_visualization.png'))
+        print(f"Visualization saved to: {os.path.join(args.output_dir, f'{args.example}_visualization.png')}")
     
     print(f"\nDone!")
 

@@ -1,6 +1,6 @@
 Original: COC(=O)C1C(OC(=O)c2ccccc2)CC2CCC1N2C
 Adversarial 1: CNC(=O)C1C(OC(=O)c2ccccc2)CC2CCC1N2C
-Adversarial 2: CN1C2CCC1C(C(=O)OS)C(OC(=O)c1ccccc1)C2
-Adversarial 3: COS(=O)C1C(OC(=O)c2ccccc2)CC2CCC1N2C
-Adversarial 4: COC(=O)C1C(OC(=S)c2ccccc2)CC2CCC1N2C
-Adversarial 5: COC(=O)C1C(OC(=O)c2ccccc2)CC2CCC1N2S
+Adversarial 2: CSC(O)C1C(OC(=O)c2ccccc2)CC2CCC1N2C
+Adversarial 3: CNC(O)C1C(OC(=O)c2ccccc2)CC2CCC1N2C
+Adversarial 4: CN1C2CCC1C(C(O)OS)C(OC(=O)c1ccccc1)C2
+Adversarial 5: CN1C2CCC1C(C(=O)OCS)C(OC(=O)c1ccccc1)C2
